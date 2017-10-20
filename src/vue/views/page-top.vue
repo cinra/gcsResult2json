@@ -45,6 +45,12 @@
 <template>
   <div class="l-demo">
     <h1>GCS API - DEMO</h1>
+    <div class="config">
+      <p>API キー</p>
+      <input type="text" v-model="config.API_KEY">
+      <p>検索エンジン ID</p>
+      <input type="text" v-model="config.CX">
+    </div>
     <form class="form" action="" ref="form">
       <p>検索で返り値が下部エリアとコンソールログに出力されます。</p>
       <input type="text" name="search" v-model="searchWord" placeholder="検索ワードを入力してください">
@@ -64,8 +70,12 @@
     data: () => {
       return {
         ENDPOINT: "https://www.googleapis.com/customsearch/v1",
-        API_KEY: "<Google Custom Search API Key>",
-        CX: "<Search Engine ID>",
+        // API_KEY: "<Google Custom Search API Key>",
+        // CX: "<Search Engine ID>",
+        config: {
+          'API_KEY': '',
+          'CX': ''
+        },
         searchResult: '',
         searchWord: '',
         wordLimit: 30,
@@ -81,15 +91,15 @@
       }
     },
     created: function() {
-      (function() {
-        var cx = '017678554559610921629:426fdgxcele';
-        var gcse = document.createElement('script');
-        gcse.type = 'text/javascript';
-        gcse.async = true;
-        gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(gcse, s);
-      })();
+      // (function() {
+      //   var cx = '017678554559610921629:426fdgxcele';
+      //   var gcse = document.createElement('script');
+      //   gcse.type = 'text/javascript';
+      //   gcse.async = true;
+      //   gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+      //   var s = document.getElementsByTagName('script')[0];
+      //   s.parentNode.insertBefore(gcse, s);
+      // })();
     },
     mounted: function() {
     },
@@ -117,8 +127,8 @@
         }
 
         const q = {
-          key: this.API_KEY,
-          cx: this.CX,
+          key: this.config.API_KEY,
+          cx: this.config.CX,
           q: this.searchWord
         };
 
