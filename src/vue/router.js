@@ -22,7 +22,7 @@ vue.use(VueRouter)
  */
 const router = new VueRouter({
   mode: 'history',
-  base: '/',
+  base: '/gcsResult2json',
   scrollBehavior: (to, from, savedPosition) => {
     return !savedPosition ? { x: 0, y: 0 } : savedPosition;
   },
