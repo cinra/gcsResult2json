@@ -18,12 +18,12 @@ module.exports = (PATH) => {
       path: `${ __root }/${ PATH.dist }/${ PATH.js }/`,
       filename: "app.min.js"
     },
-    // devServer: {
-    //   contentBase: `${ __root }/${ PATH.dist }/`,
-    //   hot: true,
-    //   port: 6003,
-    //   historyApiFallback: true
-    // },
+    devServer: {
+      contentBase: `${ __root }/${ PATH.dist }/`,
+      hot: true,
+      port: 6003,
+      historyApiFallback: true
+    },
     resolve: {
       extensions: ['.js', '.vue', '.json', '.css'],
       //mainFields: ['browser', 'main'],
@@ -34,13 +34,13 @@ module.exports = (PATH) => {
     plugins: [
       new webpack.DefinePlugin({ 'process.env': { NODE_ENV: '"production"' }}),
       new ExtractTextPlugin("app.css"),
-      // new UglifyJSPlugin(),
-      // new CompressionPlugin({
-      //   algorithm: 'gzip',
-      //   test: /\.(js|html)$/,
-      //   threshold: 10240,
-      //   minRatio: 0.8
-      // }),
+      new UglifyJSPlugin(),
+      new CompressionPlugin({
+        algorithm: 'gzip',
+        test: /\.(js|html)$/,
+        threshold: 10240,
+        minRatio: 0.8
+      }),
       new webpack.ProvidePlugin({
         $: "jquery",
         jQuery: "jquery",

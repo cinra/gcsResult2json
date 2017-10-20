@@ -1,0 +1,2 @@
+export const UPDATE_SCROLL_TOP = 'UPDATE_SCROLL_TOP';
+export const FETCH_WORKS = 'FETCH_WORKS';

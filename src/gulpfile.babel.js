@@ -70,7 +70,7 @@ gulp.task('compress', packageManager.getTask('compress'))
  */
 gulp.task('serve', packageManager.getTask('serve'))
 gulp.task('browser-sync', packageManager.getTask('browser_sync', { 'hmr': false, 'use': 'vue' }))
-
+// gulp.task('dev-server', packageManager.getTask('devserver'))
 
 /**
  * watch
