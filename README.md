@@ -66,9 +66,7 @@ Google Custom Search APIの管理画面が開きます。
 
 作成後、検索エンジンの「検索エンジンID」をコピーします。
 
-### ソース設定
+### 実行
 
-https://github.com/cinra/gcsResult2json/blob/master/src/vue/views/page-top.vue#L39-L40
-
-API_KEYに、APIキーを、
-CXに、検索エンジンIDを入力。
+[DEMO](https://cinra.github.io/gcsResult2json/)を開き、
+先ほどコピーしたAPIキー、検索エンジンIDをそれぞれ入力の上、検索をかけます。

@@ -1,35 +1,46 @@
 <style lang="scss" scoped>
+  p {
+    margin: 0;
+  }
+
   .l-demo {
     width: 800px;
     margin: auto;
     padding: 30px 0;
+
+    input {
+      -webkit-appearance: none;
+      height: 30px;
+      border: 1px solid #e8e8e8;
+      font-size: 14px;
+      padding: 10px;
+      box-shadow: 0 0 0 1px rgba(230,230,230,.2);
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    button {
+      border: none;
+      width: 60px;
+      height: 30px;
+      color: #fff;
+      font-size: 14px;
+      background: #333;
+      cursor: pointer;
+      outline: none;
+    }
   }
 
   .form {
     margin-bottom: 60px;
-  }
 
-  input {
-    -webkit-appearance: none;
-    width: 400px;
-    height: 30px;
-    border: 1px solid #e8e8e8;
-    font-size: 14px;
-    padding: 10px;
-    box-shadow: 0 0 0 1px rgba(230,230,230,.2);
-    box-sizing: border-box;
-    outline: none;
-  }
+    p {
+      margin-bottom: 10px;
+    }
 
-  button {
-    border: none;
-    width: 60px;
-    height: 30px;
-    color: #fff;
-    font-size: 14px;
-    background: #333;
-    cursor: pointer;
-    outline: none;
+    input {
+      width: 400px;
+    }
   }
 
   .result {
@@ -40,16 +51,38 @@
     background: #fdfdfd;
     border-top: 1px solid #efefef;
   }
+
+  .config {
+    display: flex;
+    font-size: 14px;
+    margin-bottom: 30px;
+
+    p {
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 300px;
+    }
+  }
+
+  .config__child {
+    margin-right: 20px;
+  }
 </style>
 
 <template>
   <div class="l-demo">
     <h1>GCS API - DEMO</h1>
     <div class="config">
-      <p>API キー</p>
-      <input type="text" v-model="config.API_KEY">
-      <p>検索エンジン ID</p>
-      <input type="text" v-model="config.CX">
+      <div class="config__child">
+        <p>API キー</p>
+        <input type="text" v-model="config.API_KEY">
+      </div>
+      <div class="config__child">
+        <p>検索エンジン ID</p>
+        <input type="text" v-model="config.CX">
+      </div>
     </div>
     <form class="form" action="" ref="form">
       <p>検索で返り値が下部エリアとコンソールログに出力されます。</p>
