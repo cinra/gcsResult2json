@@ -72,7 +72,12 @@
         continuityFlg: false,
         searchCount: 0,
         reSearchLimitTime: 10000,
-        reSearchLimitCount: 5
+        reSearchLimitCount: 5,
+        stateMessage: {
+          0: '30文字以上の検索はできません',
+          1: '短時間に連続しての検索はできません',
+          2: '検索結果が取得できませんでした。APIキー、検索エンジンIDの設定をご確認ください。'
+        }
       }
     },
     created: function() {
@@ -94,7 +99,8 @@
 
         // word limit
         if(this.searchWord.length >= this.wordLimit) {
-          console.warn('30文字以上の検索はできません');
+          console.warn(this.stateMessage[0]);
+          this.searchResult = this.stateMessage[0];
           return;
         }
 
@@ -105,7 +111,8 @@
 
         this.searchCount = this.searchCount + 1;
         if(this.searchCount > this.reSearchLimitCount) {
-          console.warn('短時間に連続しての検索はできません');
+          console.warn(this.stateMessage[1]);
+          this.searchResult = this.stateMessage[1];
           return;
         }
 
@@ -127,9 +134,8 @@
             console.log(JSON.stringify(responce.body.items, null, '\t'));
             this.searchResult = JSON.stringify(responce.body.items, null, '<br>');
           }, response => {
-            const t = '検索結果が取得できませんでした。APIキー、検索エンジンIDの設定をご確認ください。';
-            console.warn(t);
-            this.searchResult = t;
+            console.warn(this.stateMessage[2]);
+            this.searchResult = this.stateMessage[2];
           })
       }
     }
