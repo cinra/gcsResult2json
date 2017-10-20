@@ -1,4 +1,4 @@
-<style lang="scss">
+<style lang="scss" scoped>
   .l-demo {
     width: 800px;
     margin: auto;
@@ -9,23 +9,51 @@
     margin-bottom: 60px;
   }
 
+  input {
+    -webkit-appearance: none;
+    width: 400px;
+    height: 30px;
+    border: 1px solid #e8e8e8;
+    font-size: 14px;
+    padding: 10px;
+    box-shadow: 0 0 0 1px rgba(230,230,230,.2);
+    box-sizing: border-box;
+    outline: none;
+  }
+
+  button {
+    border: none;
+    width: 60px;
+    height: 30px;
+    color: #fff;
+    font-size: 14px;
+    background: #333;
+    cursor: pointer;
+    outline: none;
+  }
+
   .result {
+    padding: 30px;
+    color: #333;
+    font-size: 14px;
+    line-height: 1.4;
+    background: #fdfdfd;
     border-top: 1px solid #efefef;
-    padding: 30px 0;
   }
 </style>
 
 <template>
   <div class="l-demo">
+    <h1>GCS API - DEMO</h1>
     <form class="form" action="" ref="form">
-      <input type="text" name="search" v-model="search_word" placeholder="検索ワード">
+      <p>検索で返り値が下部エリアとコンソールログに出力されます。</p>
+      <input type="text" name="search" v-model="searchWord" placeholder="検索ワードを入力してください">
       <button @click="onSerachHandler">検索</button>
     </form>
 
-    <div class="result" v-if="search_result" v-html="search_result"></div>
+    <div class="result" v-if="searchResult" v-html="searchResult"></div>
 
     <!--gcse:search></gcse:search-->
-    <!--div class="test" v-html="test()"></div-->
   </div>
 </template>
 
@@ -36,10 +64,15 @@
     data: () => {
       return {
         ENDPOINT: "https://www.googleapis.com/customsearch/v1",
-        API_KEY: "AIzaSyDSwEbXe24EiOdDIKltzXSTAP-sYJMMviE",
-        CX: "017678554559610921629:426fdgxcele",
-        search_result: "",
-        search_word: ""
+        API_KEY: "<Google Custom Search API Key>",
+        CX: "<Search Engine ID>",
+        searchResult: '',
+        searchWord: '',
+        wordLimit: 30,
+        continuityFlg: false,
+        searchCount: 0,
+        reSearchLimitTime: 10000,
+        reSearchLimitCount: 5
       }
     },
     created: function() {
@@ -56,25 +89,34 @@
     mounted: function() {
     },
     methods: {
-      // test() {
-      //   var test = [
-      //     { 'displayLink': 'www.cinra.net', 'htmlTitle' : '『メディア芸術祭』受賞作品展を<b>速報</b>レポート アートや漫画など150点超 ...' }, { 'displayLink': 'www.cinra.net', 'htmlTitle' : '『メディア芸術祭』受賞作品展を<b>速報</b>レポート アートや漫画など150点超 ...' } ];
-
-      //   console.log(JSON.stringify(test,null,'\t'));
-      //   return JSON.stringify(test,null,'<br>');
-      // },
       onSerachHandler(e) {
         e.preventDefault();
+
+        // word limit
+        if(this.searchWord.length >= this.wordLimit) {
+          console.warn('30文字以上の検索はできません');
+          return;
+        }
+
+        if(!this.continuityFlg) {
+          this.continuityFlg = true;
+          var limit = setTimeout(()=>{ this.continuityFlg = false; this.reSearchLimitCount = 0; }, this.reSearchLimitTime);
+        }
+
+        this.searchCount = this.searchCount + 1;
+        if(this.searchCount > this.reSearchLimitCount) {
+          console.warn('短時間に連続しての検索はできません');
+          return;
+        }
 
         const q = {
           key: this.API_KEY,
           cx: this.CX,
-          q: this.search_word
+          q: this.searchWord
         };
 
         this.$http.get(this.ENDPOINT, { params: q }, {})
           .then(responce => {
-
             console.log('返り値');
             console.log(responce);
 
@@ -83,7 +125,11 @@
 
             console.log('検索結果');
             console.log(JSON.stringify(responce.body.items, null, '\t'));
-            this.search_result = JSON.stringify(responce.body.items, null, '<br>');
+            this.searchResult = JSON.stringify(responce.body.items, null, '<br>');
+          }, response => {
+            const t = '検索結果が取得できませんでした。APIキー、検索エンジンIDの設定をご確認ください。';
+            console.warn(t);
+            this.searchResult = t;
           })
       }
     }
