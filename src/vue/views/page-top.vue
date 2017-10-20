@@ -115,7 +115,7 @@
         continuityFlg: false,
         searchCount: 0,
         reSearchLimitTime: 10000,
-        reSearchLimitCount: 10,
+        reSearchLimitCount: 6,
         stateMessage: {
           0: '30文字以上の検索はできません',
           1: '短時間に連続しての検索はできません',
